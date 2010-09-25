@@ -1,0 +1,58 @@
+require 'movement.rb'
+grammar VimGrammar
+
+  rule vi_command
+    movement vi_command / 
+    tok_dd vi_command / 
+    empty
+  end
+
+  rule movement
+    down / up / left / right
+  end
+
+  rule tok_dd
+    'dd' { 
+      def to_s 
+        "delete line"
+      end
+
+      def eval
+        to_s
+      end
+    }
+  end
+
+  rule down
+    'j' <Movement>
+  end
+
+  rule up
+    'k' <Movement>
+  end
+
+  rule left
+    'h' <Movement>
+  end
+
+  rule right
+    'l' <Movement>
+  end
+
+  rule empty
+    '' {
+      def eval
+        nil
+      end
+
+      def to_s
+        "ϵ"
+      end
+    }
+  end
+
+  rule space 
+    ' '*
+  end
+
+end
