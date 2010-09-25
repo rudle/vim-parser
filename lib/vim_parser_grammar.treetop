@@ -1,10 +1,33 @@
 require 'movement.rb'
+
 grammar VimGrammar
 
   rule vi_command
+    count_command vi_command / 
     movement vi_command / 
     tok_dd vi_command / 
     empty
+  end
+
+  rule count_command
+    (count:digit+ command:countable_command) {
+      def to_s
+        command.to_s + count.to_s
+      end
+    }
+  end
+
+  rule digit
+    [0-9] {
+      def to_s
+        "#{text_value} times"
+      end
+    }
+  end
+
+
+  rule countable_command
+    movement
   end
 
   rule movement
@@ -12,7 +35,7 @@ grammar VimGrammar
   end
 
   rule tok_dd
-    'dd' { 
+    'dd' {
       def to_s 
         "delete line"
       end

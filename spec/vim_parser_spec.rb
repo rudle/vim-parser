@@ -36,4 +36,10 @@ describe VimGrammarParser do
     (traverse_pp @parser.parse 'dd').should == ["delete line"]
   end
 
+  describe "count commands" do
+    it "emits 'move down 2 times' for '2j'" do
+      (traverse_pp @parser.parse '2j').should == ["2 times", "move down"]
+    end
+
+  end
 end
