@@ -4,9 +4,75 @@ grammar VimGrammar
 
   rule vi_command
     count_command vi_command / 
+    insert_mode vi_command / 
     movement vi_command / 
     tok_dd vi_command / 
     empty
+  end
+
+  rule insert_mode
+    insert_command text+ escape_command
+  end
+
+  rule text
+    [a-z] {
+      def to_s
+        text_value
+      end
+    }
+  end
+
+  rule insert_command
+    insert / append # O/o
+  end
+
+  rule insert
+    i / shift_i
+  end
+
+  rule append
+    a / shift_a
+  end
+
+  rule escape_command
+    '<ESC>' {
+      def to_s
+        'leave insert mode'
+      end
+    }
+  end
+
+  rule i
+    'i' {
+      def to_s
+        'enter insert mode (i)'
+      end
+    }
+  end
+  
+
+  rule shift_i
+    'I' {
+      def to_s
+        'enter insert at ^ (I)'
+      end
+    }
+  end
+
+  rule a
+    'a' {
+      def to_s
+        'enter insert with append (a)'
+      end
+    }
+  end
+
+  rule shift_a
+    'A' {
+      def to_s
+        'enter insert mode at $ (A)'
+      end
+    }
   end
 
   rule count_command
@@ -24,7 +90,6 @@ grammar VimGrammar
       end
     }
   end
-
 
   rule countable_command
     movement
