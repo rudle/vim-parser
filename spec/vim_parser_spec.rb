@@ -53,7 +53,6 @@ describe VimGrammarParser do
     end
 
     it "should handle insert mode in concert with other commands" do
-
       (traverse_pp @parser.parse '3jihello<ESC>kdd').should_not be_nil
     end
   end
